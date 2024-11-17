@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouaoud <ybouaoud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:46:39 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/09/12 17:46:40 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/08 09:08:50 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/philo.h"

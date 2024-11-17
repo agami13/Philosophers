@@ -3,41 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouaoud <ybouaoud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:46:36 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/10/08 09:03:02 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/17 17:56:38 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	*thread1(void *arg)
-{
-	int i = -1;
-	while (++i < 5)
-		printf("iter[thread] : %d\n", i);
-	return NULL;
-}
-void	main_thread(void)
-{
-	int i = -1;
-	while (++i < 5)
-		printf("iter[main] : %d\n", i);
-}
+// void	*thread1(void *arg)
+// {
+// 	int i = -1;
+// 	while (++i < 5)
+// 		printf("iter[thread] : %d\n", i);
+// 	return NULL;
+// }
+// void	main_thread(void)
+// {
+// 	int i = -1;
+// 	while (++i < 5)
+// 		printf("iter[main] : %d\n", i);
+// }
 
 int main(int argc, char *argv[])
 {
-	pthread_t	new;
+	// pthread_t	new;
 	t_data		*data;
 
 	data = malloc(sizeof(t_data));
 	if (argc >= 5 && argc <= 6)
 	{
 		param_parse(data, argv);
-		pthread_create(&new, NULL, thread1, NULL);
-		main_thread();
-		pthread_join(new, NULL);
+		// pthread_create(&new, NULL, thread1, NULL);
+		// main_thread();
+		// pthread_join(new, NULL);
 		printf("\n\n\n\n%s", argv[1]);
 	}
 	else
