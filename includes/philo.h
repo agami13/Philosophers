@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:22 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/20 12:49:28 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:01:29 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_data
 }					t_data;
 
 // routine functions
-void			philo_routine(void	*arg);
+void			*philo_routine(void *arg);
 void			print_state(t_philo *philo, char *msg, int state);
 void			philo_eat(t_philo *philo);
 void			check_death(t_data *data);
@@ -75,6 +75,10 @@ int				init(t_data *data);
 
 // utils functions
 char			*ft_itoa(int n);
+
+// threads functions
+int				threads_begin(t_data *data);
+void			exiting_threads(t_data *data);
 
 // parsing functions
 int				ft_atoi(const char *str);
