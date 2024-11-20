@@ -6,11 +6,11 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:00:17 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/17 18:43:37 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/20 12:12:19 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
 
 time_t  get_time(void)
 {

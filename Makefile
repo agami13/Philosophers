@@ -1,6 +1,7 @@
 NAME = philo
 
-SRC = srcs/parsing.c srcs/utils.c srcs/philo.c
+SRC = srcs/parsing.c srcs/utils.c srcs/philo.c srcs/philo_funcs.c \
+	  srcs/init.c srcs/time.c \
 
 OBG = $(SRC:.c=.o)
 

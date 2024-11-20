@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:46:36 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/17 17:56:38 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:56:51 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ int main(int argc, char *argv[])
 	if (argc >= 5 && argc <= 6)
 	{
 		param_parse(data, argv);
-		// pthread_create(&new, NULL, thread1, NULL);
-		// main_thread();
-		// pthread_join(new, NULL);
-		printf("\n\n\n\n%s", argv[1]);
+		printf("nb_philo = %d\n", data->nb_philo);
+		printf("time_to_die = %d\n", data->time_to_die);
+		printf("time_to_eat = %d\n", data->time_to_eat);
+		printf("time_to_sleep = %d\n", data->time_to_sleep);
+		printf("max_meals = %d\n", data->max_meals);
 	}
 	else
 	{

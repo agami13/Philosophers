@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:46:34 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/17 17:55:47 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:23:10 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	param_parse(t_data *data, char **av)
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
 	if (av[5])
-		data->nb_eat = ft_atoi(av[5]);
+		data->max_meals = ft_atoi(av[5]);
 	else
-		data->nb_eat = -1;
+		data->max_meals = -1;
 	num_check(data);
 }
 

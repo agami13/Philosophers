@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:22 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/17 18:45:57 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/20 12:49:28 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,25 @@
 
 typedef enum e_state
 {
-	EATING = 0,
-	SLEEPING = 1,
-	THINKING = 2,
-	DEAD = 3,
-	FORK = 4
+	DEAD = 0,
+	EATING = 2,
+	SLEEPING = 2,
+	THINKING = 4
 }					t_state;
+
+struct s_data;
+
+typedef	struct	s_philo
+{
+	int				times_eaten;
+	int				id;
+	int				left_fork;
+	int				right_fork;
+	unsigned int	last_meal;
+	struct s_data	*data;
+	t_state			state;
+	pthread_t		thread;
+}					t_philo;
 
 typedef struct s_data
 {
@@ -35,21 +48,39 @@ typedef struct s_data
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				nb_eat;
+	int				max_meals;
+	int				simulation_end;
+	unsigned int	start_time;
+	t_philo			*philos;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	print;
+	pthread_mutex_t	meals;
 }					t_data;
 
 // routine functions
+void			philo_routine(void	*arg);
+void			print_state(t_philo *philo, char *msg, int state);
+void			philo_eat(t_philo *philo);
+void			check_death(t_data *data);
+void			check_maxMeals(t_data *data);
+int 			simulation_end(t_data *data);
 
 // time functions
 time_t			get_time(void);
 void			ft_sleep(t_data *data, time_t sleep_time);
 void			delay(time_t delay_time);
 
+// init function
+int				init(t_data *data);
+
+// utils functions
+char			*ft_itoa(int n);
+
 // parsing functions
-int		ft_atoi(const char *str);
-int		ft_isalpha(int c);
-void	param_parse(t_data *data, char **av);
-void	args_check(char **av);
-void	num_check(t_data *data);
+int				ft_atoi(const char *str);
+int				ft_isalpha(int c);
+void			param_parse(t_data *data, char **av);
+void			args_check(char **av);
+void			num_check(t_data *data);
 
 #endif
