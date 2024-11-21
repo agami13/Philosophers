@@ -7,7 +7,7 @@ OBG = $(SRC:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -g
 
 all	:	$(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:46:34 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/19 11:23:10 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:32:52 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	param_parse(t_data *data, char **av)
 	if (av[5])
 		data->max_meals = ft_atoi(av[5]);
 	else
-		data->max_meals = -1;
+		data->max_meals = 0;
 	num_check(data);
 }
 
@@ -99,3 +99,4 @@ int	ft_isalpha(int c)
 	}
 	return (0);
 }
+
