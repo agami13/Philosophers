@@ -12,24 +12,23 @@
 
 #include "../includes/philo.h"
 
-unsigned long  get_time(void)
+unsigned long	get_time(void)
 {
-    struct timeval tv;
+	struct timeval	tv;
 
-    gettimeofday(&tv, NULL);
-    return ((tv.tv_sec * (unsigned long)1000) + (tv.tv_usec / 1000));
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * (unsigned long)1000) + (tv.tv_usec / 1000));
 }
 
-void    ft_sleep(t_data *data, unsigned long sleep_time)
+void	ft_sleep(t_data *data, unsigned long sleep_time)
 {
-    unsigned long  time_to_wakeup;
+	unsigned long	time_to_wakeup;
 
-    time_to_wakeup = get_time();
-    while (!data->simulation_end)
-    {
-        if (get_time() - time_to_wakeup >= sleep_time)
-            break ;
-        usleep(data->nb_philo * 2);
-    }
+	time_to_wakeup = get_time();
+	while (!data->simulation_end)
+	{
+		if (get_time() - time_to_wakeup >= sleep_time)
+			break ;
+		usleep(data->nb_philo * 2);
+	}
 }
-

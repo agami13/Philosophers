@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:46:34 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/21 14:32:52 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/22 12:40:18 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	args_check(char **av)
 {
-	int i;
+	int	i;
 	int	j;
-	i = 0;
 
+	i = 0;
 	while (av[++i])
 	{
 		j = 0;
@@ -30,7 +30,7 @@ void	args_check(char **av)
 			}
 			j++;
 		}
-	}	
+	}
 }
 
 void	num_check(t_data *data)
@@ -41,7 +41,8 @@ void	num_check(t_data *data)
 		exit(1);
 	}
 	if (data->nb_philo <= 0 || data->time_to_die <= 0
-		|| data->time_to_sleep <= 0 || data->time_to_eat <= 0)
+		|| data->time_to_sleep <= 0 || data->time_to_eat <= 0
+		|| data->meals_counter < 0)
 	{
 		printf("Error: All arguments must be greater than 0\n");
 		exit(1);
@@ -56,9 +57,9 @@ void	param_parse(t_data *data, char **av)
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
 	if (av[5])
-		data->max_meals = ft_atoi(av[5]);
+		data->meals_counter = ft_atoi(av[5]);
 	else
-		data->max_meals = 0;
+		data->meals_counter = 0;
 	num_check(data);
 }
 
@@ -93,10 +94,9 @@ int	ft_atoi(const char *str)
 
 int	ft_isalpha(int c)
 {
-	if ((c >= 'A' && c <= 'Z' ) || (c >= 'a' && c <= 'z'))
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
 	{
 		return (1);
 	}
 	return (0);
 }
-

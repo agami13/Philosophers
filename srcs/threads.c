@@ -38,7 +38,7 @@ static void	exiting(t_data *data)
 
 void	*philo_routine(void *arg)
 {
-	int	i;
+	int		i;
 	t_philo	*philo;
 	t_data	*data;
 
@@ -66,7 +66,8 @@ int	simulation_start(t_data *data)
 	while (i < data->nb_philo)
 	{
 		data->philos[i].last_meal = data->start_time;
-		if (pthread_create(&data->philos[i].thread, NULL, philo_routine, &data->philos[i]))
+		if (pthread_create(&data->philos[i].thread, NULL, philo_routine,
+				&data->philos[i]))
 			return (1);
 		i++;
 	}

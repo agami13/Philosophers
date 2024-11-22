@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:41:40 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/21 16:48:41 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/22 12:49:54 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	check_death(t_data *data)
 		while (i < data->nb_philo && !data->simulation_end)
 		{
 			pthread_mutex_lock(&data->meals);
-			if ((int)(get_time() - data->philos[i].last_meal) >= data->time_to_die)
+			if ((int)(get_time()
+				- data->philos[i].last_meal) >= data->time_to_die)
 			{
 				print_state(&data->philos[i], "died", 0);
 				data->simulation_end = 1;
@@ -62,8 +63,8 @@ void	check_death(t_data *data)
 		if (data->simulation_end)
 			break ;
 		i = 0;
-		while (i < data->nb_philo && data->max_meals
-				&& data->philos[i].times_eaten < data->max_meals)
+		while (i < data->nb_philo && data->meals_counter
+			&& data->philos[i].times_eaten >= data->meals_counter)
 			i++;
 		data->max_meals = (i == data->nb_philo);
 	}
