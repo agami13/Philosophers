@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:41:40 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/22 12:49:54 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/23 17:30:21 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,31 @@ void	eating_state(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
 }
 
+static int	helper_func(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_lock(&data->meals);
+	while (i < data->nb_philo && data->meals_counter
+		&& data->philos[i].times_eaten >= data->meals_counter)
+		i++;
+	if (i == data->nb_philo)
+		data->max_meals = 1;
+	pthread_mutex_unlock(&data->meals);
+	if (data->max_meals)
+		return (1);
+	return (0);
+}
+
 void	check_death(t_data *data)
 {
 	int	i;
 
-	while (!data->max_meals)
+	while (1)
 	{
 		i = 0;
-		while (i < data->nb_philo && !data->simulation_end)
+		while (i < data->nb_philo)
 		{
 			pthread_mutex_lock(&data->meals);
 			if ((int)(get_time()
@@ -56,16 +73,13 @@ void	check_death(t_data *data)
 			{
 				print_state(&data->philos[i], "died", 0);
 				data->simulation_end = 1;
+				pthread_mutex_unlock(&data->meals);
+				return ;
 			}
 			pthread_mutex_unlock(&data->meals);
 			i++;
 		}
-		if (data->simulation_end)
+		if (helper_func(data))
 			break ;
-		i = 0;
-		while (i < data->nb_philo && data->meals_counter
-			&& data->philos[i].times_eaten >= data->meals_counter)
-			i++;
-		data->max_meals = (i == data->nb_philo);
 	}
 }
