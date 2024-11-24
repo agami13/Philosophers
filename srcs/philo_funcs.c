@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:41:40 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/24 15:47:56 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/24 18:04:37 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,38 +25,23 @@ void	print_state(t_philo *philo, char *message, int state)
 	free(time_in_ms);
 }
 
-static void	try_to_aquire_fork(t_philo *philo, t_data *data)
-{
-	if (philo->id == data->nb_philo)
-	{
-		pthread_mutex_lock(&data->forks[philo->right_fork]);
-		print_state(philo, "has taken a fork", 1);
-		pthread_mutex_lock(&data->forks[philo->left_fork]);
-		print_state(philo, "has taken a fork", 1);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
-		print_state(philo, "has taken a fork", 1);
-		pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
-		print_state(philo, "has taken a fork", 1);
-	}
-}
-
 void	eating_state(t_philo *philo)
 {
 	t_data	*data;
 
 	data = philo->data;
-	try_to_aquire_fork(philo, data);
-	pthread_mutex_lock(&philo->data->meals);
+	pthread_mutex_lock(&data->forks[philo->left_fork]);
+	print_state(philo, "has taken a fork", 1);
+	pthread_mutex_lock(&data->forks[philo->right_fork]);
+	print_state(philo, "has taken a fork", 1);
+	pthread_mutex_lock(&data->meals);
 	print_state(philo, "is eating", 1);
 	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->data->meals);
-	ft_sleep(philo->data, philo->data->time_to_eat);
+	pthread_mutex_unlock(&data->meals);
+	ft_sleep(data, data->time_to_eat);
 	philo->times_eaten++;
-	pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
-	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
+	pthread_mutex_unlock(&data->forks[philo->right_fork]);
+	pthread_mutex_unlock(&data->forks[philo->left_fork]);
 }
 
 static int	helper_func(t_data *data)
@@ -80,14 +65,14 @@ void	check_death(t_data *data)
 {
 	int	i;
 
-	while (1)
+	while (!data->max_meals)
 	{
 		i = 0;
-		while (i < data->nb_philo)
+		while (i < data->nb_philo && !simulation_end(data))
 		{
 			pthread_mutex_lock(&data->meals);
 			if ((int)(get_time()
-				- data->philos[i].last_meal) >= data->time_to_die)
+				- data->philos[i].last_meal) > data->time_to_die)
 			{
 				print_state(&data->philos[i], "died", 0);
 				pthread_mutex_lock(&data->death);
