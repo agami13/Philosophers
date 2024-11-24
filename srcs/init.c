@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:29:16 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/21 16:57:05 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/24 14:04:48 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static int	init_mutex(t_data *data)
 	if (pthread_mutex_init(&data->print, NULL))
 		return (1);
 	if (pthread_mutex_init(&data->meals, NULL))
+		return (1);
+	if (pthread_mutex_init(&data->death, NULL))
 		return (1);
 	return (0);
 }

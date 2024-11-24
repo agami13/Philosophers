@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:22 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/22 12:49:04 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/24 14:47:13 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	meals;
+	pthread_mutex_t	death;
 }					t_data;
 
 // routine functions
@@ -65,6 +66,7 @@ int					init(t_data *data);
 
 // utils functions
 char				*ft_itoa(int n);
+int					simulation_end(t_data *data);
 
 // threads functions
 int					simulation_start(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:00:17 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/21 16:55:52 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/24 14:50:27 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,22 @@ void	ft_sleep(t_data *data, unsigned long sleep_time)
 	unsigned long	time_to_wakeup;
 
 	time_to_wakeup = get_time();
-	while (!data->simulation_end)
+	while (!simulation_end(data))
 	{
 		if (get_time() - time_to_wakeup >= sleep_time)
 			break ;
 		usleep(data->nb_philo * 2);
 	}
+}
+
+int	simulation_end(t_data *data)
+{
+	int	ret;
+
+	ret = 0;
+	pthread_mutex_lock(&data->death);
+	if (data->simulation_end)
+		ret = 1;
+	pthread_mutex_unlock(&data->death);
+	return (ret);
 }
