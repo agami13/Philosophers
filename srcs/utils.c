@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 16:20:29 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/21 16:20:53 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/24 15:39:14 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,16 @@ char	*ft_itoa(int n)
 		len--;
 	}
 	return (str);
+}
+
+int	simulation_end(t_data *data)
+{
+	int	ret;
+
+	ret = 0;
+	pthread_mutex_lock(&data->death);
+	if (data->simulation_end)
+		ret = 1;
+	pthread_mutex_unlock(&data->death);
+	return (ret);
 }

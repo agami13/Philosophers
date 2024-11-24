@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:41:40 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/24 14:46:43 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/24 15:47:56 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,8 @@ void	print_state(t_philo *philo, char *message, int state)
 	free(time_in_ms);
 }
 
-void	eating_state(t_philo *philo)
+static void	try_to_aquire_fork(t_philo *philo, t_data *data)
 {
-	t_data	*data;
-
-	data = philo->data;
 	if (philo->id == data->nb_philo)
 	{
 		pthread_mutex_lock(&data->forks[philo->right_fork]);
@@ -44,6 +41,14 @@ void	eating_state(t_philo *philo)
 		pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
 		print_state(philo, "has taken a fork", 1);
 	}
+}
+
+void	eating_state(t_philo *philo)
+{
+	t_data	*data;
+
+	data = philo->data;
+	try_to_aquire_fork(philo, data);
 	pthread_mutex_lock(&philo->data->meals);
 	print_state(philo, "is eating", 1);
 	philo->last_meal = get_time();

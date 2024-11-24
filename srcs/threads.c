@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:54:29 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/24 14:48:49 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/24 15:43:58 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*philo_routine(void *arg)
 	data = philo->data;
 	i = 0;
 	if (philo->id % 2 && data->nb_philo > 1)
-		ft_sleep(data, data->time_to_eat / 50);
+		ft_sleep(data, data->time_to_eat);
 	while (!simulation_end(data) && !data->max_meals)
 	{
 		eating_state(philo);
