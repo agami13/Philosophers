@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:54:29 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/24 18:02:20 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:26:42 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ static void	exiting(t_data *data)
 	}
 	i = 0;
 	while (i < data->nb_philo)
-		pthread_mutex_destroy(&data->forks[i++]);
+	{
+		pthread_mutex_destroy(&data->philos[i].state_lock);
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
 	pthread_mutex_destroy(&data->print);
 	pthread_mutex_destroy(&data->meals);
 	i = 0;
@@ -38,13 +42,11 @@ static void	exiting(t_data *data)
 
 void	*philo_routine(void *arg)
 {
-	int		i;
 	t_philo	*philo;
 	t_data	*data;
 
 	philo = (t_philo *)arg;
 	data = philo->data;
-	i = 0;
 	if (philo->id % 2)
 		usleep(1000);
 	while (!simulation_end(data))
@@ -70,7 +72,7 @@ int	simulation_start(t_data *data)
 		if (pthread_create(&data->philos[i].thread, NULL, philo_routine,
 				&data->philos[i]))
 			return (1);
-		data->philos[i].last_meal = data->start_time;
+		data->philos[i].last_meal = get_time();
 		i++;
 	}
 	check_death(data);

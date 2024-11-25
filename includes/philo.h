@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:22 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/24 14:47:13 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:50:25 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_philo
 	unsigned long	last_meal;
 	struct s_data	*data;
 	pthread_t		thread;
+	pthread_mutex_t	state_lock;
+	pthread_mutex_t	eat_mutex;
 }					t_philo;
 
 typedef struct s_data
@@ -67,6 +69,7 @@ int					init(t_data *data);
 // utils functions
 char				*ft_itoa(int n);
 int					simulation_end(t_data *data);
+// unsigned long		get_last_meal(t_philo *philo);
 
 // threads functions
 int					simulation_start(t_data *data);

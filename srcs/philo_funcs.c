@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:41:40 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/24 18:04:37 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:02:19 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ void	eating_state(t_philo *philo)
 	pthread_mutex_lock(&data->forks[philo->right_fork]);
 	print_state(philo, "has taken a fork", 1);
 	pthread_mutex_lock(&data->meals);
+	pthread_mutex_lock(&philo->state_lock);
 	print_state(philo, "is eating", 1);
 	philo->last_meal = get_time();
 	pthread_mutex_unlock(&data->meals);
 	ft_sleep(data, data->time_to_eat);
 	philo->times_eaten++;
+	pthread_mutex_unlock(&philo->state_lock);
 	pthread_mutex_unlock(&data->forks[philo->right_fork]);
 	pthread_mutex_unlock(&data->forks[philo->left_fork]);
 }
@@ -49,15 +51,27 @@ static int	helper_func(t_data *data)
 	int	i;
 
 	i = 0;
-	pthread_mutex_lock(&data->meals);
 	while (i < data->nb_philo && data->meals_counter
-		&& data->philos[i].times_eaten >= data->meals_counter)
+			&& data->philos[i].times_eaten >= data->meals_counter)
 		i++;
 	if (i == data->nb_philo)
 		data->max_meals = 1;
-	pthread_mutex_unlock(&data->meals);
 	if (data->max_meals)
 		return (1);
+	return (0);
+}
+
+int	did_Die(t_philo *philo, unsigned long time_to_die)
+{
+	if (get_time() - philo->last_meal > time_to_die)
+	{
+		print_state(philo, "died", 0);
+		pthread_mutex_lock(&philo->data->death);
+		philo->data->simulation_end = 1;
+		pthread_mutex_unlock(&philo->state_lock);
+		pthread_mutex_unlock(&philo->data->death);
+		return (1);
+	}
 	return (0);
 }
 
@@ -68,20 +82,12 @@ void	check_death(t_data *data)
 	while (!data->max_meals)
 	{
 		i = 0;
-		while (i < data->nb_philo && !simulation_end(data))
+		while (i < data->nb_philo)
 		{
-			pthread_mutex_lock(&data->meals);
-			if ((int)(get_time()
-				- data->philos[i].last_meal) > data->time_to_die)
-			{
-				print_state(&data->philos[i], "died", 0);
-				pthread_mutex_lock(&data->death);
-				data->simulation_end = 1;
-				pthread_mutex_unlock(&data->death);
-				pthread_mutex_unlock(&data->meals);
+			pthread_mutex_lock(&data->philos[i].state_lock);
+			if (did_Die(&data->philos[i], data->time_to_die))
 				return ;
-			}
-			pthread_mutex_unlock(&data->meals);
+			pthread_mutex_unlock(&data->philos[i].state_lock);
 			i++;
 		}
 		if (helper_func(data))

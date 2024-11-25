@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:29:16 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/24 14:04:48 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:37:30 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static int	ft_init_philo(t_data *data)
 		data->philos[i].left_fork = i;
 		data->philos[i].right_fork = (i + 1) % data->nb_philo;
 		data->philos[i].data = data;
+		pthread_mutex_init(&data->philos[i].state_lock, NULL);
+		pthread_mutex_init(&data->philos[i].eat_mutex, NULL);
 		i++;
 	}
 	if (i != data->nb_philo)
