@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:22 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/25 13:50:25 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/01 20:49:03 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,29 @@
 # include <time.h>
 # include <unistd.h>
 
-struct	s_data;
+typedef struct s_data t_data;
+
+typedef enum e_state
+{
+	FORK1,
+	FORK2,
+	THINKING,
+	EATING,
+	SLEEPING,
+	DEAD
+}	t_state;
 
 typedef struct s_philo
 {
-	int				times_eaten;
-	int				id;
-	char			*id_char;
-	int				left_fork;
-	int				right_fork;
-	unsigned long	last_meal;
-	struct s_data	*data;
+	int				meals_count;
+	int				pos;
+	int				flag;
+	long			last_meal;
+	t_data			*data;
 	pthread_t		thread;
+	pthread_mutex_t	*fork1_mutex;
+	pthread_mutex_t	*fork2_mutex;
 	pthread_mutex_t	state_lock;
-	pthread_mutex_t	eat_mutex;
 }					t_philo;
 
 typedef struct s_data
@@ -42,43 +51,53 @@ typedef struct s_data
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				max_meals;
-	int				meals_counter;
+	long			max_meals;
 	int				simulation_end;
-	unsigned long	start_time;
+	int				thread_flag;
+	long			thread_active;
+	long			start_time;
 	t_philo			*philos;
+	pthread_t		monitoring;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	print;
-	pthread_mutex_t	meals;
-	pthread_mutex_t	death;
+	pthread_mutex_t	print_lock;
+	pthread_mutex_t	data_lock;
 }					t_data;
 
 // routine functions
-void				check_death(t_data *data);
-void				eating_state(t_philo *philo);
-void				print_state(t_philo *philo, char *message, int state);
+void				*one_philo_routine(void *arg);
 void				*philo_routine(void *arg);
+void				*monitoring(void *arg);
 
 // time functions
-unsigned long		get_time(void);
 void				ft_sleep(t_data *data, unsigned long sleep_time);
+long				get_time(void);
 
 // init function
 int					init(t_data *data);
 
 // utils functions
+void				update_flag(pthread_mutex_t *mutex, long *update, long value);
+void				increment_value(pthread_mutex_t *mutex, long *value);
+long			    get_safe_value(pthread_mutex_t *mutex, long *value);
 char				*ft_itoa(int n);
+int					get_safe_flag(pthread_mutex_t *mutex, int *flag);
 int					simulation_end(t_data *data);
-// unsigned long		get_last_meal(t_philo *philo);
+int 				thread_active(pthread_mutex_t *mutex, long *value, long nb_philo);
 
 // threads functions
+void				print_state(t_philo *philo, t_state state);
+void				philo_think(t_philo *philo, int flag);
+void				philo_eat(t_philo *philo);
+int					simulation_start(t_data *data);
+int					exiting(t_data *data);
 int					simulation_start(t_data *data);
 
 // parsing functions
-int					ft_atoi(const char *str);
-int					ft_isalpha(int c);
 void				param_parse(t_data *data, char **av);
 void				args_check(char **av);
 void				num_check(t_data *data);
+void				cleanup(t_data *data);
+int					ft_atoi(const char *str);
+int					ft_isalpha(int c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 16:20:29 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/25 13:50:30 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/01 20:47:30 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,39 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
+void	update_flag(pthread_mutex_t *mutex, long *update, long value)
+{
+	pthread_mutex_lock(mutex);
+	*update = value;
+	pthread_mutex_unlock(mutex);
+}
+
+int	get_safe_flag(pthread_mutex_t *mutex, int *flag)
+{
+	int ret;
+
+	pthread_mutex_lock(mutex);
+	ret = *flag;
+	pthread_mutex_unlock(mutex);
+	return (ret);
+}
+
 int	simulation_end(t_data *data)
 {
 	int	ret;
 
-	ret = 0;
-	pthread_mutex_lock(&data->death);
-	if (data->simulation_end)
-		ret = 1;
-	pthread_mutex_unlock(&data->death);
+	ret = get_safe_flag(&data->data_lock, &data->simulation_end);
 	return (ret);
 }
+
+// int	simulation_end(t_data *data)
+// {
+// 	int	ret;
+
+// 	ret = 0;
+// 	pthread_mutex_lock(&data->death);
+// 	if (data->simulation_end)
+// 		ret = 1;
+// 	pthread_mutex_unlock(&data->death);
+// 	return (ret);
+// }

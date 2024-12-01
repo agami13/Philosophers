@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:46:34 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/11/22 12:40:18 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:59:41 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	num_check(t_data *data)
 	}
 	if (data->nb_philo <= 0 || data->time_to_die <= 0
 		|| data->time_to_sleep <= 0 || data->time_to_eat <= 0
-		|| data->meals_counter < 0)
+		|| data->max_meals < 0)
 	{
 		printf("Error: All arguments must be greater than 0\n");
 		exit(1);
@@ -57,9 +57,9 @@ void	param_parse(t_data *data, char **av)
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
 	if (av[5])
-		data->meals_counter = ft_atoi(av[5]);
+		data->max_meals = ft_atoi(av[5]);
 	else
-		data->meals_counter = 0;
+		data->max_meals = 0;
 	num_check(data);
 }
 
