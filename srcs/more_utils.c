@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 18:00:17 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/01 20:43:03 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/02 11:43:48 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_sleep(t_data *data, unsigned long sleep_time)
     {
         if (get_safe_flag(&data->data_lock, &data->simulation_end))
             break;
-        usleep(50);
+        usleep(25);
 	}
 }
 

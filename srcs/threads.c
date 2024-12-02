@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:54:29 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/01 20:45:34 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/02 11:43:23 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static	int	death_check(t_philo *philo)
 	return (0);
 }
 
-void	*philo_routine(void *arg)
+void	*monitoring(void *arg)
 {
 	t_data	*data;
 	int		i;
@@ -43,7 +43,7 @@ void	*philo_routine(void *arg)
 		{
 			if (death_check(&data->philos[i]))
 			{
-				update_flag(&data->data_lock, &data->simulation_end, 1);
+				update_value(&data->data_lock, &data->simulation_end, 1);
 				print_state(&data->philos[i], DEAD);
 			}
 			i++;
@@ -52,20 +52,20 @@ void	*philo_routine(void *arg)
 	return (NULL);
 }
 
-void	*monitoring(void *arg)
+void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 	while (!get_safe_flag(&philo->data->data_lock, &philo->data->thread_flag))
 		;
-	update_flag(&philo->state_lock, &philo->last_meal, get_time());
+	update_long_value(&philo->state_lock, &philo->last_meal, get_time());
 	increment_value(&philo->data->data_lock,
 		&philo->data->thread_active);
 	if (!(philo->data->nb_philo % 2))
 	{
 		if (!(philo->pos % 2))
-			ft_sleep(philo->data, 10000);
+			ft_sleep(philo->data, 30000);
 	}
 	else if (philo->pos % 2)
 		philo_think(philo, 1);
@@ -104,7 +104,7 @@ int	simulation_start(t_data *data)
 	if (pthread_create(&data->monitoring, NULL, monitoring, data))
 		return (1);
 	data->start_time = get_time();
-	update_flag(&data->data_lock, &data->thread_flag, 1);
+	update_value(&data->data_lock, &data->thread_flag, 1);
 	return (0);
 }
 
@@ -119,7 +119,7 @@ int	exiting(t_data *data)
 			return (1);
 		i++;
 	}
-	update_flag(&data->data_lock, &data->simulation_end, 1);
+	update_value(&data->data_lock, &data->simulation_end, 1);
 	if (pthread_join(data->monitoring, NULL))
 		return (1);
 	return (0);

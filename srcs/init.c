@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:29:16 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/01 20:38:41 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/02 11:16:33 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	init_mutex(t_philo *philo, pthread_mutex_t *forks,
 	nb = philo->data->nb_philo;
 	philo->fork1_mutex = &forks[(i + 1) % nb];
 	philo->fork2_mutex = &forks[i];
-	if (!(i % 2))
+	if (i % 2 == 0)
 	{
 		philo->fork1_mutex = &forks[i];
 		philo->fork2_mutex = &forks[(i + 1) % nb];
@@ -72,24 +72,6 @@ int	init(t_data *data)
 	return (0);
 }
 
-void	cleanup(t_data *data)
-{
-	t_philo	*philo;
-	int		i;
-
-	i = 0;
-	while (i < data->nb_philo)
-	{
-		philo = &data->philos[i];
-		pthread_mutex_destroy(&philo->state_lock);
-		i++;
-	}
-	pthread_mutex_destroy(&data->print_lock);
-	pthread_mutex_destroy(&data->data_lock);
-	free(data->philos);
-	free(data->forks);
-	free(data);
-}
 // static int	init_mutex(t_data *data)
 // {
 // 	int	i;

@@ -7,7 +7,7 @@ OBG = $(SRC:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread
 
 all	:	$(NAME)
 

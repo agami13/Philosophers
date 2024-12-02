@@ -6,60 +6,20 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 16:20:29 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/01 20:47:30 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/02 11:43:09 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-static unsigned int	num_len(int num)
+void	update_long_value(pthread_mutex_t *mutex, long *update, long value)
 {
-	unsigned int	len;
-
-	len = 0;
-	if (num == 0)
-		return (1);
-	if (num < 0)
-	{
-		len += 1;
-	}
-	while (num != 0)
-	{
-		num /= 10;
-		len++;
-	}
-	return (len);
+	pthread_mutex_lock(mutex);
+	*update = value;
+	pthread_mutex_unlock(mutex);
 }
 
-char	*ft_itoa(int n)
-{
-	char			*str;
-	unsigned int	num;
-	unsigned int	len;
-
-	len = num_len(n);
-	num = n;
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	if (n < 0)
-	{
-		str[0] = '-';
-		num *= -1;
-	}
-	if (num == 0)
-		str[0] = '0';
-	str[len] = '\0';
-	while (num != 0)
-	{
-		str[len - 1] = (num % 10) + '0';
-		num /= 10;
-		len--;
-	}
-	return (str);
-}
-
-void	update_flag(pthread_mutex_t *mutex, long *update, long value)
+void	update_value(pthread_mutex_t *mutex, int *update, int value)
 {
 	pthread_mutex_lock(mutex);
 	*update = value;
@@ -82,6 +42,24 @@ int	simulation_end(t_data *data)
 
 	ret = get_safe_flag(&data->data_lock, &data->simulation_end);
 	return (ret);
+}
+
+void	cleanup(t_data *data)
+{
+	t_philo	*philo;
+	int		i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		philo = &data->philos[i];
+		pthread_mutex_destroy(&philo->state_lock);
+		i++;
+	}
+	pthread_mutex_destroy(&data->print_lock);
+	pthread_mutex_destroy(&data->data_lock);
+	free(data->philos);
+	free(data->forks);
 }
 
 // int	simulation_end(t_data *data)

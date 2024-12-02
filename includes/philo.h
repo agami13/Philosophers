@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:22 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/01 20:49:03 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/02 11:19:26 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ long				get_time(void);
 int					init(t_data *data);
 
 // utils functions
-void				update_flag(pthread_mutex_t *mutex, long *update, long value);
+void				update_value(pthread_mutex_t *mutex, int *update, int value);
 void				increment_value(pthread_mutex_t *mutex, long *value);
 long			    get_safe_value(pthread_mutex_t *mutex, long *value);
-char				*ft_itoa(int n);
 int					get_safe_flag(pthread_mutex_t *mutex, int *flag);
 int					simulation_end(t_data *data);
 int 				thread_active(pthread_mutex_t *mutex, long *value, long nb_philo);
+void				update_long_value(pthread_mutex_t *mutex, long *update, long value);
 
 // threads functions
 void				print_state(t_philo *philo, t_state state);
@@ -97,7 +97,7 @@ void				param_parse(t_data *data, char **av);
 void				args_check(char **av);
 void				num_check(t_data *data);
 void				cleanup(t_data *data);
-int					ft_atoi(const char *str);
+long				ft_atol(const char *str);
 int					ft_isalpha(int c);
 
 #endif

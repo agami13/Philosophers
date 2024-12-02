@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:41:40 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/01 20:35:38 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/02 11:23:36 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*one_philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (!get_safe_flag(&philo->data->data_lock, &philo->data->thread_flag))
 		;
-	update_flag(&philo->state_lock, &philo->last_meal, get_time());
+	update_long_value(&philo->state_lock, &philo->last_meal, get_time());
 	increment_value(&philo->data->data_lock, &philo->data->thread_active);
 	print_state(philo, FORK1);
 	while (!simulation_end(philo->data))
@@ -51,12 +51,12 @@ void	philo_eat(t_philo *philo)
 	print_state(philo, FORK1);
 	pthread_mutex_lock(philo->fork2_mutex);
 	print_state(philo, FORK2);
-	update_flag(&philo->state_lock, &philo->last_meal, get_time());
+	update_long_value(&philo->state_lock, &philo->last_meal, get_time());
 	philo->meals_count++;
 	print_state(philo, EATING);
 	ft_sleep(philo->data, philo->data->time_to_eat);
-	if (philo->data->max_meals && philo->meals_count == philo->data->max_meals)
-		update_flag(&philo->state_lock, &philo->flag, 1);
+	if (philo->data->max_meals != -1 && philo->meals_count == philo->data->max_meals)
+		update_value(&philo->state_lock, &philo->flag, 1);
 	pthread_mutex_unlock(philo->fork1_mutex);
 	pthread_mutex_unlock(philo->fork2_mutex);
 }

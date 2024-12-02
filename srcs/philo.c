@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:24:07 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/01 20:24:40 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/02 11:23:59 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char *argv[])
 		printf("Error: Wrong number of arguments\n");
 		return (1);
 	}
-	data.max_meals = 0;
+	data.max_meals = -1;
 	data.simulation_end = 0;
 	param_parse(&data, argv);
 	if (init(&data))
