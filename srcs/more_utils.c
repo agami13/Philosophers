@@ -22,40 +22,42 @@ long	get_time(void)
 
 void	ft_sleep(t_data *data, unsigned long sleep_time)
 {
-    unsigned long start_time = get_time() * 1000;
-    while ((get_time() * 1000) - start_time < sleep_time)
-    {
-        if (get_safe_flag(&data->data_lock, &data->simulation_end))
-            break;
-        usleep(25);
+	unsigned long	start_time;
+
+	start_time = get_time() * 1000;
+	while ((get_time() * 1000) - start_time < sleep_time)
+	{
+		if (get_safe_flag(&data->data_lock, &data->simulation_end))
+			break ;
+		usleep(25);
 	}
 }
 
-long    get_safe_value(pthread_mutex_t *mutex, long *value)
+long	get_safe_value(pthread_mutex_t *mutex, long *value)
 {
-    long    safe_value;
+	long	safe_value;
 
-    pthread_mutex_lock(mutex);
-    safe_value = *value;
-    pthread_mutex_unlock(mutex);
-    return (safe_value);
+	pthread_mutex_lock(mutex);
+	safe_value = *value;
+	pthread_mutex_unlock(mutex);
+	return (safe_value);
 }
 
-int thread_active(pthread_mutex_t *mutex, long *value, long nb_philo)
+int	thread_active(pthread_mutex_t *mutex, long *value, long nb_philo)
 {
-    int active;
+	int	active;
 
-    active = 0;
-    pthread_mutex_lock(mutex);
-    if (*value == nb_philo)
-        active = 1;
-    pthread_mutex_unlock(mutex);
-    return (active);
+	active = 0;
+	pthread_mutex_lock(mutex);
+	if (*value == nb_philo)
+		active = 1;
+	pthread_mutex_unlock(mutex);
+	return (active);
 }
 
-void    increment_value(pthread_mutex_t *mutex, long *value)
+void	increment_value(pthread_mutex_t *mutex, long *value)
 {
-    pthread_mutex_lock(mutex);
-    (*value)++;
-    pthread_mutex_unlock(mutex);
+	pthread_mutex_lock(mutex);
+	(*value)++;
+	pthread_mutex_unlock(mutex);
 }

@@ -6,21 +6,20 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 14:54:29 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/02 11:43:23 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:12:07 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-static	int	death_check(t_philo *philo)
+static int	death_check(t_philo *philo)
 {
 	long	time_to_die;
 	long	time;
 
 	if (get_safe_flag(&philo->state_lock, &philo->flag))
 		return (0);
-	time = get_time() - get_safe_value(&philo->state_lock,
-			&philo->last_meal);
+	time = get_time() - get_safe_value(&philo->state_lock, &philo->last_meal);
 	time_to_die = philo->data->time_to_die / 1000;
 	if (time > time_to_die)
 		return (1);
@@ -33,8 +32,8 @@ void	*monitoring(void *arg)
 	int		i;
 
 	data = (t_data *)arg;
-	while (!thread_active(&data->data_lock,
-			&data->thread_active, data->nb_philo))
+	while (!thread_active(&data->data_lock, &data->thread_active,
+			data->nb_philo))
 		;
 	while (!simulation_end(data))
 	{
@@ -60,8 +59,7 @@ void	*philo_routine(void *arg)
 	while (!get_safe_flag(&philo->data->data_lock, &philo->data->thread_flag))
 		;
 	update_long_value(&philo->state_lock, &philo->last_meal, get_time());
-	increment_value(&philo->data->data_lock,
-		&philo->data->thread_active);
+	increment_value(&philo->data->data_lock, &philo->data->thread_active);
 	if (!(philo->data->nb_philo % 2))
 	{
 		if (!(philo->pos % 2))
@@ -69,8 +67,8 @@ void	*philo_routine(void *arg)
 	}
 	else if (philo->pos % 2)
 		philo_think(philo, 1);
-	while (!simulation_end(philo->data) && !get_safe_flag(&philo->data->data_lock,
-			&philo->flag))
+	while (!simulation_end(philo->data)
+		&& !get_safe_flag(&philo->data->data_lock, &philo->flag))
 	{
 		philo_eat(philo);
 		print_state(philo, SLEEPING);
@@ -84,21 +82,22 @@ int	simulation_start(t_data *data)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (!data->max_meals)
 		return (0);
 	else if (data->nb_philo == 1)
 	{
-		if (pthread_create(&data->philos[0].thread, NULL, one_philo_routine, &data->philos[0])) 
+		if (pthread_create(&data->philos[0].thread, NULL, one_philo_routine,
+				&data->philos[0]))
 			return (1);
 	}
 	else
 	{
-		while (i < data->nb_philo)
+		while (++i < data->nb_philo)
 		{
-			if (pthread_create(&data->philos[i].thread, NULL, philo_routine, &data->philos[i]))
+			if (pthread_create(&data->philos[i].thread, NULL, philo_routine,
+					&data->philos[i]))
 				return (1);
-			i++;
 		}
 	}
 	if (pthread_create(&data->monitoring, NULL, monitoring, data))

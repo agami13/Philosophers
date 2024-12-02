@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:22 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/02 11:19:26 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:14:10 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <time.h>
 # include <unistd.h>
 
-typedef struct s_data t_data;
+typedef struct s_data	t_data;
 
 typedef enum e_state
 {
@@ -30,74 +30,77 @@ typedef enum e_state
 	EATING,
 	SLEEPING,
 	DEAD
-}	t_state;
+}						t_state;
 
 typedef struct s_philo
 {
-	int				meals_count;
-	int				pos;
-	int				flag;
-	long			last_meal;
-	t_data			*data;
-	pthread_t		thread;
-	pthread_mutex_t	*fork1_mutex;
-	pthread_mutex_t	*fork2_mutex;
-	pthread_mutex_t	state_lock;
-}					t_philo;
+	int					meals_count;
+	int					pos;
+	int					flag;
+	long				last_meal;
+	t_data				*data;
+	pthread_t			thread;
+	pthread_mutex_t		*fork1_mutex;
+	pthread_mutex_t		*fork2_mutex;
+	pthread_mutex_t		state_lock;
+}						t_philo;
 
 typedef struct s_data
 {
-	int				nb_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	long			max_meals;
-	int				simulation_end;
-	int				thread_flag;
-	long			thread_active;
-	long			start_time;
-	t_philo			*philos;
-	pthread_t		monitoring;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	print_lock;
-	pthread_mutex_t	data_lock;
-}					t_data;
+	int					nb_philo;
+	int					time_to_die;
+	int					time_to_eat;
+	int					time_to_sleep;
+	long				max_meals;
+	int					simulation_end;
+	int					thread_flag;
+	long				thread_active;
+	long				start_time;
+	t_philo				*philos;
+	pthread_t			monitoring;
+	pthread_mutex_t		*forks;
+	pthread_mutex_t		print_lock;
+	pthread_mutex_t		data_lock;
+}						t_data;
 
 // routine functions
-void				*one_philo_routine(void *arg);
-void				*philo_routine(void *arg);
-void				*monitoring(void *arg);
+void					*one_philo_routine(void *arg);
+void					*philo_routine(void *arg);
+void					*monitoring(void *arg);
 
 // time functions
-void				ft_sleep(t_data *data, unsigned long sleep_time);
-long				get_time(void);
+void					ft_sleep(t_data *data, unsigned long sleep_time);
+long					get_time(void);
 
 // init function
-int					init(t_data *data);
+int						init(t_data *data);
 
 // utils functions
-void				update_value(pthread_mutex_t *mutex, int *update, int value);
-void				increment_value(pthread_mutex_t *mutex, long *value);
-long			    get_safe_value(pthread_mutex_t *mutex, long *value);
-int					get_safe_flag(pthread_mutex_t *mutex, int *flag);
-int					simulation_end(t_data *data);
-int 				thread_active(pthread_mutex_t *mutex, long *value, long nb_philo);
-void				update_long_value(pthread_mutex_t *mutex, long *update, long value);
+void					update_value(pthread_mutex_t *mutex, int *update,
+							int value);
+void					increment_value(pthread_mutex_t *mutex, long *value);
+long					get_safe_value(pthread_mutex_t *mutex, long *value);
+int						get_safe_flag(pthread_mutex_t *mutex, int *flag);
+int						simulation_end(t_data *data);
+int						thread_active(pthread_mutex_t *mutex, long *value,
+							long nb_philo);
+void					update_long_value(pthread_mutex_t *mutex, long *update,
+							long value);
 
 // threads functions
-void				print_state(t_philo *philo, t_state state);
-void				philo_think(t_philo *philo, int flag);
-void				philo_eat(t_philo *philo);
-int					simulation_start(t_data *data);
-int					exiting(t_data *data);
-int					simulation_start(t_data *data);
+void					print_state(t_philo *philo, t_state state);
+void					philo_think(t_philo *philo, int flag);
+void					philo_eat(t_philo *philo);
+int						simulation_start(t_data *data);
+int						exiting(t_data *data);
+int						simulation_start(t_data *data);
 
 // parsing functions
-void				param_parse(t_data *data, char **av);
-void				args_check(char **av);
-void				num_check(t_data *data);
-void				cleanup(t_data *data);
-long				ft_atol(const char *str);
-int					ft_isalpha(int c);
+void					param_parse(t_data *data, char **av);
+void					args_check(char **av);
+void					num_check(t_data *data);
+void					cleanup(t_data *data);
+long					ft_atol(const char *str);
+int						ft_isalpha(int c);
 
 #endif

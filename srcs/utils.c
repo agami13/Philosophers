@@ -28,7 +28,7 @@ void	update_value(pthread_mutex_t *mutex, int *update, int value)
 
 int	get_safe_flag(pthread_mutex_t *mutex, int *flag)
 {
-	int ret;
+	int	ret;
 
 	pthread_mutex_lock(mutex);
 	ret = *flag;

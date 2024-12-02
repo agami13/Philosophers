@@ -12,8 +12,7 @@
 
 #include "../includes/philo.h"
 
-static void	init_mutex(t_philo *philo, pthread_mutex_t *forks,
-						int i)
+static void	init_mutex(t_philo *philo, pthread_mutex_t *forks, int i)
 {
 	int	nb;
 
