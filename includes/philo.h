@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:22 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/02 16:14:10 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:53:40 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ void					num_check(t_data *data);
 void					cleanup(t_data *data);
 long					ft_atol(const char *str);
 int						ft_isalpha(int c);
+int						another_check(char **av);
 
 #endif
