@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:22 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/05 13:53:40 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/06 13:11:59 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ int						exiting(t_data *data);
 int						simulation_start(t_data *data);
 
 // parsing functions
-void					param_parse(t_data *data, char **av);
-void					args_check(char **av);
-void					num_check(t_data *data);
+int						param_parse(t_data *data, char **av);
+int						args_check(char **av);
+int						num_check(t_data *data);
 void					cleanup(t_data *data);
 long					ft_atol(const char *str);
 int						ft_isalpha(int c);

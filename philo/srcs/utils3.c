@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:50:14 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/05 13:57:33 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/06 13:10:15 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	another_check(char **av)
 			if (av[i][j] == '+' || av[i][j] == '-')
 			{
 				printf("Error: Argument %d has invalid input\n", i);
-				exit(1);
+				return (1);
 			}
 			j++;
 		}
