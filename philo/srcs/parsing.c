@@ -6,7 +6,7 @@
 /*   By: ybouaoud <ybouaoud@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:46:34 by ybouaoud          #+#    #+#             */
-/*   Updated: 2024/12/06 13:13:56 by ybouaoud         ###   ########.fr       */
+/*   Updated: 2024/12/08 14:42:31 by ybouaoud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,14 @@ int	param_parse(t_data *data, char **av)
 	data->time_to_eat = ft_atol(av[3]) * 1000;
 	data->time_to_sleep = ft_atol(av[4]) * 1000;
 	if (av[5])
+	{
 		data->max_meals = ft_atol(av[5]);
+		if (data->max_meals < 0)
+		{
+			printf("Error: All arguments must be only positive numbers\n");
+			return (1);
+		}
+	}
 	if (num_check(data))
 		return (1);
 	return (0);
